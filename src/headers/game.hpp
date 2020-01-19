@@ -1,20 +1,21 @@
 #pragma once
 
-#include <iostream>
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
+#include "state.hpp"
 
 class Game{
 private:
     sf::RenderWindow *window;
     sf::Event sfEvent;
+    sf::Clock dtClock;
+    float dt;
 
     void initWindow();
+
 public:
     Game();
     virtual ~Game();
 
+    void updateDt();
     void updateSFMLEvents();
     void update();
     void render();
