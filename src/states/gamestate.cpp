@@ -1,30 +1,38 @@
 #include "gamestate.hpp"
 
-GameState::GameState(sf::RenderWindow* window)
-    : State(window){
-
+GameState::GameState(sf::RenderWindow *window)
+    : State(window)
+{
 }
 
-GameState::~GameState(){
-
+GameState::~GameState()
+{
 }
 
-void GameState::endState(){
+void GameState::endState()
+{
     std::cout << "GameState::endState" << std::endl;
 }
 
-void GameState::updateKeybinds(const float & dt){
+void GameState::updateInput(const float &dt)
+{
     this->checkForQuit();
 }
 
-void GameState::update(const float& dt){
-    this->updateKeybinds(dt);
-    
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-        std::cout << "A" << std::endl;
-    }
+void GameState::update(const float &dt)
+{
+    this->updateInput(dt);
+    this->player.update(dt);
 }
 
-void GameState::render(sf::RenderTarget* target){
-
+void GameState::render(sf::RenderTarget *target)
+{
+    if (target)
+    {
+        this->player.render(target);
+    }
+    else
+    {
+        this->player.render(this->window);
+    }
 }
