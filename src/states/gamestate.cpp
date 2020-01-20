@@ -1,11 +1,18 @@
 #include "gamestate.hpp"
 
 void GameState::initKeybinds(){
-    this->keybinds["CLOSE"] = this->supportedKeys->at("ESC");
-    this->keybinds["MOVE_LEFT"] = this->supportedKeys->at("A");
-    this->keybinds["MOVE_RIGHT"] = this->supportedKeys->at("D");
-    this->keybinds["MOVE_UP"] = this->supportedKeys->at("W");
-    this->keybinds["MOVE_DOWN"] = this->supportedKeys->at("S");
+    std::ifstream inFile("config/gamestate-keybinds.ini");
+
+    if (inFile.is_open()){
+        std::string key = "";
+        std::string keyCode = "";
+        while(inFile >> key >> keyCode)
+        {
+            this->keybinds[key] = this->supportedKeys->at(keyCode);
+        }
+    }
+
+    inFile.close();
 }
 
 GameState::GameState(sf::RenderWindow *window, std::map<std::string, int>* supportedKeys)

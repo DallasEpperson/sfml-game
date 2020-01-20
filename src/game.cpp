@@ -24,11 +24,18 @@ void Game::initStates(){
 }
 
 void Game::initKeys(){
-    this->supportedKeys["ESC"] = sf::Keyboard::Escape;
-    this->supportedKeys["A"] = sf::Keyboard::Key::A;
-    this->supportedKeys["D"] = sf::Keyboard::Key::D;
-    this->supportedKeys["W"] = sf::Keyboard::Key::W;
-    this->supportedKeys["S"] = sf::Keyboard::Key::S;
+    std::ifstream inFile("config/supported-keys.ini");
+
+    if (inFile.is_open()){
+        std::string key = "";
+        int keyValue = 0;
+        while(inFile >> key >> keyValue)
+        {
+            this->supportedKeys[key] = keyValue;
+        }
+    }
+
+    inFile.close();
 }
 
 Game::Game(){
