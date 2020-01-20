@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../states/gamestate.hpp"
+#include "../states/mainmenustate.hpp"
 
 class Game{
 private:
