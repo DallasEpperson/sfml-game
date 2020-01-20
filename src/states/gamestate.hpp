@@ -6,8 +6,10 @@ class GameState : public State {
 private:
     Entity player;
 
+    void initKeybinds();
+
 public:
-    GameState(sf::RenderWindow* window);
+    GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys);
     virtual ~GameState();
 
     void endState();
