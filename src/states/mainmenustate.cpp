@@ -1,5 +1,19 @@
 #include "mainmenustate.hpp"
 
+void MainMenuState::initVariables(){
+
+}
+
+void MainMenuState::initBackground(){
+    this->background.setSize(sf::Vector2f(this->window->getSize().x, this->window->getSize().y));
+    
+    if(!this->backgroundTexture.loadFromFile("./resources/images/backgrounds/bg1.png")){
+        throw "Error: MainMenuState::initBackground failed to load background texture";
+    }
+
+    this->background.setTexture(&this->backgroundTexture);
+}
+
 void MainMenuState::initFonts()
 {
     //todo get this from system's default instead
@@ -27,10 +41,15 @@ void MainMenuState::initKeybinds()
 
 void MainMenuState::initButtons()
 {
-    this->buttons["GAME_STATE"] = new Button(100, 100, 150, 50,
+    this->buttons["GAME_STATE"] = new Button(300, 280, 250, 50,
         &this->font, "New Game",
         sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
-    this->buttons["EXIT_STATE"] = new Button(100, 300, 150, 50,
+    
+    this->buttons["SETTINGS_STATE"] = new Button(300, 380, 250, 50,
+        &this->font, "Settings",
+        sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+    
+    this->buttons["EXIT_STATE"] = new Button(300, 480, 250, 50,
         &this->font, "Quit",
         sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 }
@@ -41,12 +60,11 @@ MainMenuState::MainMenuState(
     std::stack<State*>* states)
     : State(window, supportedKeys, states)
 {
+    this->initVariables();
+    this->initBackground();
     this->initFonts();
     this->initKeybinds();
     this->initButtons();
-
-    this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-    this->background.setFillColor(sf::Color::Magenta);
 }
 
 MainMenuState::~MainMenuState()
