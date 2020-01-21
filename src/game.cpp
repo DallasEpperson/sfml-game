@@ -1,20 +1,43 @@
 #include "headers/game.hpp"
 
+void Game::initVariables(){
+    this->window = nullptr;
+    this->fullscreen = false;
+    this->dt = 0.f;
+}
+
 void Game::initWindow(){
     std::ifstream inFile("config/window.ini");
+    this->videoModes = sf::VideoMode::getFullscreenModes();
+
     std::string title = "SFML game";
-    sf::VideoMode windowBounds(800, 600);
+    sf::VideoMode windowBounds = sf::VideoMode::getDesktopMode();
     unsigned framerateLimit = 120;
     bool verticalSyncEnabled = false;
+    unsigned int antialiasingLevel = 0;
+
     if (inFile.is_open()){
         std::getline(inFile, title);
         inFile >> windowBounds.width >> windowBounds.height;
+        inFile >> this->fullscreen;
         inFile >> framerateLimit;
         inFile >> verticalSyncEnabled;
+        inFile >> antialiasingLevel;
     }
     inFile.close();
 
-    this->window = new sf::RenderWindow(windowBounds, title);
+    this->windowSettings.antialiasingLevel = antialiasingLevel;
+    
+    if(this->fullscreen)
+    {
+        windowBounds = sf::VideoMode::getDesktopMode(); //TODO depperson if set manually, results in crash. Y Tho?
+        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Fullscreen, this->windowSettings);
+    }
+    else
+    {
+        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Titlebar | sf::Style::Close, this->windowSettings);
+    }
+
     this->window->setFramerateLimit(framerateLimit);
     this->window->setVerticalSyncEnabled(verticalSyncEnabled);
 }
